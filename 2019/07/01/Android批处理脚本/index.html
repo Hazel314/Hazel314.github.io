@@ -140,7 +140,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="搜索">
+						<input type="text" class="input u-search-input" placeholder="Search">
 						<i class="icon fas fa-search fa-fw"></i>
 					</form>
 				</div>
@@ -323,18 +323,18 @@
 </blockquote>
 <p>下面几个脚本建议用的时候根据自己的实际情况进行修改</p>
 <a id="more"></a>
-<h3 id="1-获取系统信息"><a href="#1-获取系统信息" class="headerlink" title="1. 获取系统信息"></a>1. 获取系统信息</h3><p>功能说明：读取手机信息存至文件</p>
+<h2 id="1-获取系统信息"><a href="#1-获取系统信息" class="headerlink" title="1. 获取系统信息"></a>1. 获取系统信息</h2><p>功能说明：读取手机信息存至文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@ECHO OFF </span><br><span class="line">ECHO [等待插入手机...]</span><br><span class="line">  adb wait-for-device</span><br><span class="line">ECHO [读取手机信息]</span><br><span class="line">ECHO -------------------------------</span><br><span class="line">  adb shell cat /system/build.prop&gt;%~dp0\phone.info</span><br><span class="line">FOR /F &quot;tokens=1,2 delims==&quot; %%a in (phone.info) do (</span><br><span class="line">  IF %%a == ro.build.version.release SET androidOS=%%b</span><br><span class="line">  IF %%a == ro.product.model SET model=%%b</span><br><span class="line">  IF %%a == ro.product.brand SET brand=%%b</span><br><span class="line">  IF %%a == ro.build.id SET id=%%b</span><br><span class="line">  IF %%a == ro.product.cpu.abi SET cpu=%%b</span><br><span class="line">  IF %%a == ro.board.platform SET platform=%%b</span><br><span class="line">  IF %%a == ro.product.manufacturer SET manufacturer=%%b</span><br><span class="line">  IF %%a == ro.build.version.sdk SET sdk=%%b</span><br><span class="line">  )</span><br><span class="line">del /a/f/q %~dp0\phone.info</span><br><span class="line">ECHO.</span><br><span class="line">ECHO.手 机 品 牌: %brand%</span><br><span class="line">ECHO.手 机 型 号: %model%</span><br><span class="line">ECHO.版  本   号: %id%</span><br><span class="line">ECHO.Android版本: Android %androidOS%</span><br><span class="line">ECHO.C P U 版 本: %cpu%</span><br><span class="line">ECHO.S D K 版 本: %sdk%</span><br><span class="line">ECHO.主 板 平 台: %platform%</span><br><span class="line">ECHO.制  造   商: %manufacturer%</span><br><span class="line">ECHO.-------------------------------</span><br><span class="line"></span><br><span class="line">ECHO.手 机 品 牌: %brand%&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line">ECHO.手 机 型 号: %model%&gt;&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line">ECHO.版  本   号: %id%&gt;&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line">ECHO.Android版本: Android %androidOS%&gt;&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line">ECHO.CPU  版  本: %cpu%&gt;&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line">ECHO.SDK  版  本: %sdk%&gt;&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line">ECHO.主 板 平 台: %platform%&gt;&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line">ECHO.制  造   商: %manufacturer%&gt;&gt;&quot;%~dp0\result\Phone_%model%.txt&quot;</span><br><span class="line"></span><br><span class="line">ECHO [暂停15秒自动关闭...]</span><br><span class="line">  ping -n 50 127.0.0.1&gt;nul</span><br><span class="line">@ECHO ON</span><br></pre></td></tr></table></figure>
 
 <p>运行截图：<br> <img src="/images/Android/01.png" alt></p>
 <p>执行结果：执行之后会将读取到的结果以txt存储到该脚本所在目录下的result文件夹中，并以“Phone_ + 手机型号”命名</p>
-<h3 id="2-终端截图"><a href="#2-终端截图" class="headerlink" title="2. 终端截图"></a>2. 终端截图</h3><p>功能说明：将终端当前界面截图保存至电脑指定路径下</p>
+<h2 id="2-终端截图"><a href="#2-终端截图" class="headerlink" title="2. 终端截图"></a>2. 终端截图</h2><p>功能说明：将终端当前界面截图保存至电脑指定路径下</p>
 <p>代码部分：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@ECHO OFF      </span><br><span class="line">ECHO.[快速手机截屏]      </span><br><span class="line">ECHO.-------------------------------       </span><br><span class="line">ECHO.[Exce ] 手机截屏      </span><br><span class="line">adb shell screencap -p /sdcard/screen.png       </span><br><span class="line">ECHO.[Tips ] 拷贝截屏图片至电脑       </span><br><span class="line">adb pull /sdcard/screen.png &quot;%~dp0\ScreenShot\screen.png&quot;       </span><br><span class="line">ren ScreenShot\screen.png &quot;%date:~0,4%%date:~5,2%%date:~8,2%%time:~0,2%%time:~3,2%%time:~6,2%.png&quot;    </span><br><span class="line">ECHO.[Tips] 未删除终端screen.png文件 </span><br><span class="line">::adb shell rm /sdcard/screen.png （若需在截图后删除终端的图片文件，则）</span><br><span class="line">ECHO.[打开截图目录]</span><br><span class="line">explorer &quot;%cd%\ScreenShot&quot; </span><br><span class="line">ECHO [暂停3秒自动关闭...]  </span><br><span class="line">ping -n 3 127.0.0.1&gt;nul  </span><br><span class="line">@ECHO ON</span><br></pre></td></tr></table></figure>
 
 <p>运行截图：<br><img src="/images/Android/02.png" alt></p>
 <p>执行结果：运行过程与提示一致，之后会直接打开截图目录，目录为该脚本所在路径下的ScreenShot文件夹，文件名为截图时间</p>
-<h3 id="3-apk信息查看"><a href="#3-apk信息查看" class="headerlink" title="3. apk信息查看"></a>3. apk信息查看</h3><p>功能说明：直接将apk拖动至bat文件上 即可查看apk文件的详细信息，如包名、版本、版本号等</p>
+<h2 id="3-apk信息查看"><a href="#3-apk信息查看" class="headerlink" title="3. apk信息查看"></a>3. apk信息查看</h2><p>功能说明：直接将apk拖动至bat文件上 即可查看apk文件的详细信息，如包名、版本、版本号等</p>
 <p>代码部分：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@ECHO OFF  </span><br><span class="line">ECHO [查看APK包信息]  </span><br><span class="line">ECHO -------------------------------  </span><br><span class="line">ECHO aapt dump badging %~nx1  </span><br><span class="line">aapt dump badging %1 &gt; %~dp0result\%~n1.txt  </span><br><span class="line">ECHO [暂停3秒自动关闭...]  </span><br><span class="line">%ping -n 3 127.0.0.1&gt;nul </span><br><span class="line">@ECHO ON</span><br></pre></td></tr></table></figure>
 
@@ -342,7 +342,7 @@
 <p>执行结果：运行完成后，会将apk信息以txt的形式存储在本地，路径为该脚本所在路径下的result文件夹中。</p>
 <p>以百度网盘apk为例：<br><img src="/images/Android/03.png" alt></p>
 <p>第一行信息分别为apk包名、版本号、版本。下面还有其它的很多信息，需要的自行百度。</p>
-<h3 id="4-安装-卸载-替换apk"><a href="#4-安装-卸载-替换apk" class="headerlink" title="4.    安装/卸载/替换apk"></a>4.    安装/卸载/替换apk</h3><p>功能说明：通过命令快速安装/卸载/替换apk</p>
+<h2 id="4-安装-卸载-替换apk"><a href="#4-安装-卸载-替换apk" class="headerlink" title="4.    安装/卸载/替换apk"></a>4.    安装/卸载/替换apk</h2><p>功能说明：通过命令快速安装/卸载/替换apk</p>
 <p>代码部分：<br>安装apk：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@ECHO OFF</span><br><span class="line">ECHO [安装APK]</span><br><span class="line">ECHO -------------------------------</span><br><span class="line">ECHO [等待插入手机...]</span><br><span class="line"> adb wait-for-device</span><br><span class="line">ECHO [安装] %~nx1</span><br><span class="line"> adb install -r %1</span><br><span class="line">ECHO [暂停5秒自动关闭...]</span><br><span class="line"> ping -n 5 127.0.0.1&gt;nul</span><br><span class="line">@ECHO ON</span><br></pre></td></tr></table></figure>
 
@@ -356,13 +356,15 @@
 
 
 <p>执行结果：安装/替换时需要将apk文件拖动至脚本上，然后释放即可直接执行；卸载时修改apk包名后直接执行即可。</p>
-<h3 id="5-导出日志"><a href="#5-导出日志" class="headerlink" title="5.    导出日志"></a>5.    导出日志</h3><p>功能说明：快速导出终端缓存区日志</p>
+<h2 id="5-导出日志"><a href="#5-导出日志" class="headerlink" title="5.    导出日志"></a>5.    导出日志</h2><p>功能说明：快速导出终端缓存区日志</p>
 <p>代码部分：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@ECHO OFF   </span><br><span class="line">ECHO.[导出logcat日志]   </span><br><span class="line">ECHO.-------------------------------  </span><br><span class="line">adb logcat -d&gt;&quot;%~dp0\log\%date:~0,4%%date:~5,2%%date:~8,2%%time:~0,2%%time:~3,2%%time:~6,2%.log&quot; </span><br><span class="line">ECHO.  导出完成！ </span><br><span class="line">ECHO.[打开日志目录] </span><br><span class="line">explorer &quot;%cd%\log&quot;</span><br><span class="line">ECHO.[暂停3秒自动关闭...]  </span><br><span class="line">ping -n 3 127.0.0.1&gt;nul   </span><br><span class="line">@ECHO ON</span><br></pre></td></tr></table></figure>
 
 <p>执行结果：缓存区日志会以txt格式存储在本地log文件夹中，以当前时间命名，且执行完成后会立即打开日志目录</p>
 <p>暂时先写这么多，有新的再补充~</p>
+<blockquote>
 <p>备忘一下：补充关于批处理脚本的一些代码说明。</p>
+</blockquote>
 <p>例行撒花✿✿ヽ(°▽°)ノ✿</p>
 
         </div>
@@ -375,10 +377,10 @@
     <div class="new-meta-box">
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-02T14:14:25+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-02T14:23:14+08:00">
   <a class="notlink">
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 Jul 2, 2019</p>
+    <p>last updated at Jul 2, 2019</p>
   </a>
 </div>
 
@@ -470,7 +472,7 @@
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
-                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
                                 <a href="/2019/05/23/hello-world/" rel="prev" title="Hello World">
                                     
@@ -568,14 +570,14 @@
   <section class="widget toc-wrapper">
     
 <header class="pure">
-  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;TOC</div>
   
     <div class="wrapper"><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
   
 </header>
 
     <div class="content pure">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-获取系统信息"><span class="toc-text">1. 获取系统信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-终端截图"><span class="toc-text">2. 终端截图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-apk信息查看"><span class="toc-text">3. apk信息查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-安装-卸载-替换apk"><span class="toc-text">4.    安装/卸载/替换apk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-导出日志"><span class="toc-text">5.    导出日志</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-获取系统信息"><span class="toc-text">1. 获取系统信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-终端截图"><span class="toc-text">2. 终端截图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-apk信息查看"><span class="toc-text">3. apk信息查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-安装-卸载-替换apk"><span class="toc-text">4.    安装/卸载/替换apk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-导出日志"><span class="toc-text">5.    导出日志</span></a></li></ol>
     </div>
   </section>
 
@@ -652,7 +654,7 @@
   <section class="widget category">
     
 <header class="pure">
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
   
     <a class="rightBtn" rel="nofollow" href="/blog/categories/" title="blog/categories/">
     <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
@@ -683,7 +685,7 @@
   <section class="widget tagcloud">
     
 <header class="pure">
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
   
     <a class="rightBtn" rel="nofollow" href="/blog/tags/" title="blog/tags/">
     <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
@@ -764,19 +766,19 @@
     </div>
   
   <br>
-  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
   <div>
-    本站使用
+    Use
     <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
-    作为主题
+    as theme
     
-      ，
-      总访问量为
+      , 
+      total visits
       <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
-      次
+      times
     
-    。
+    . 
   </div>
 
 </footer>
@@ -883,15 +885,15 @@
 <!-- 复制 -->
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-  let COPY_SUCCESS = "复制成功";
-  let COPY_FAILURE = "复制失败";
+  let COPY_SUCCESS = "Copied";
+  let COPY_FAILURE = "Copy failed";
   /*页面载入完成后，创建复制按钮*/
   !function (e, t, a) {
     /* code */
     var initCopyCode = function(){
       var copyHtml = '';
       copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '  <i class="fa fa-copy"></i><span>Copy</span>';
       copyHtml += '</button>';
       $(".highlight .code pre").before(copyHtml);
       var clipboard = new ClipboardJS('.btn-copy', {
